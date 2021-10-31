@@ -226,5 +226,5 @@ while loop_flag == 1:
     counter += 1
     if counter % 10 == 0:
       counter = 0
-      timestamp = datetime.datetime.now().isoformat()
+      timestamp = datetime.now().isoformat()
       mqtt_client.publish('{}/status'.format(base_topic), payload=timestamp, retain=True)
