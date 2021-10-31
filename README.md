@@ -41,6 +41,8 @@ sudo cp /opt/schellenberg-mqtt/template.service /etc/systemd/system/schellenberg
 
 sudo systemctl daemon-reload
 
+sudo chmod 666 /dev/ttyACM0  
+
 sudo systemctl start schellenberg.service
 sudo systemctl status schellenberg.service
 
