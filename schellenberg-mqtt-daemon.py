@@ -75,13 +75,6 @@ def print_line(text, error = False, warning=False, sd_notify=False, console=True
     if sd_notify:
         sd_notifier.notify('STATUS={} - {}.'.format(timestamp_sd, unidecode(text)))
 
-# Identifier cleanup
-def clean_identifier(name):
-    clean = name.strip()
-    for this, that in [[' ', '-'], ['ä', 'ae'], ['Ä', 'Ae'], ['ö', 'oe'], ['Ö', 'Oe'], ['ü', 'ue'], ['Ü', 'Ue'], ['ß', 'ss']]:
-        clean = clean.replace(this, that)
-    clean = unidecode(clean)
-    return clean
 
 # Eclipse Paho callbacks - http://www.eclipse.org/paho/clients/python/docs/#callbacks
 def on_connect(client, userdata, flags, rc):
@@ -116,7 +109,6 @@ def validateJsonCommand(jsonData):
   return bValid
 
 def buildSchellenbergCommand(device, command):
-  
   fullCommand = 'ss' + \
                 device + \
                 numOfResends + \
@@ -127,6 +119,7 @@ def buildSchellenbergCommand(device, command):
 
 def on_message(client, userdata, msg):
     jsonIn = msg.payload.decode()
+    print_line('Received new command, checking it..' + jsonIn, console=True, sd_notify=True)
     bValid = validateJsonCommand(jsonIn)
     if bValid:
       device = jsonIn[deviceEnumeratorKey]
@@ -137,6 +130,7 @@ def on_message(client, userdata, msg):
         #set up serial connection to usb stick
         ser = serial.Serial('/dev/'+ usb_adapter, deviceBaudRate)
         fullCommand = buildSchellenbergCommand(device, command)
+        print_line('New command:' + fullCommand, console=True, sd_notify=True)
         #write the command to the port
         numBytes = ser.write(str.encode(fullCommand))
         ser.close() # do not keep the connection open if others want to use it as well
