@@ -216,7 +216,7 @@ if reporting_mode in ['mqtt-json']:
 
 sd_notifier.notify('READY=1')
 
-print_line('Initialization complete, starting MQTT publish loop', console=False, sd_notify=True)
+print_line('Initialization complete, starting MQTT publish loop', console=True, sd_notify=True)
 
 loop_flag=1
 counter = 0
@@ -227,4 +227,4 @@ while loop_flag == 1:
     if counter % 10 == 0:
       counter = 0
       timestamp = datetime.now().isoformat()
-      mqtt_client.publish('{}/status'.format(base_topic), payload=timestamp, retain=True)
+      mqtt_client.publish('{}/heartbeat'.format(base_topic), payload=timestamp, retain=True)
