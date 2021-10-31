@@ -2,7 +2,7 @@
 Daemon which allows to send commands to rollershutters from Schellenberg through MQTT
 
 
-## MQTT Commands
+## Configuration
 
 For now, only json commands with two mandatory parameters are allowed:
 
@@ -27,4 +27,22 @@ Currently, the following commands are supported:
     "deviceEnumerator" : "C4",
     "command" : "down"
 }
+```
+## Setup
+
+### Single Use
+`python 3 python3 schellenberg-mqtt-daemon.py`
+
+### Continuous Daemon/Service
+Assuming you cloned the repository to `/opt/`, otherwise you need to change all paths accordingly
+
+```
+sudo cp /opt/schellenberg-mqtt/template.service /etc/systemd/system/schellenberg.service
+
+sudo systemctl daemon-reload
+
+sudo systemctl start schellenberg.service
+sudo systemctl status schellenberg.service
+
+sudo systemctl enable schellenberg.service
 ```
