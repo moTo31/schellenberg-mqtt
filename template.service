@@ -1,0 +1,20 @@
+[Unit]
+Description=Schellenberg MQTT Daemon
+Documentation=https://github.com/moTo31/schellenberg-mqtt
+After=network.target mosquitto.service
+
+[Service]
+Type=notify
+User=daemon
+Group=daemon
+WorkingDirectory=/opt/schellenberg-mqtt/
+ExecStart=/usr/bin/python3 /opt/schellenberg-mqtt/schellenberg-mqtt-daemon.py
+StandardOutput=null
+#StandardOutput=syslog
+#SyslogIdentifier=miflora
+StandardError=journal
+Environment=PYTHONUNBUFFERED=true
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
