@@ -119,7 +119,7 @@ def buildSchellenbergCommand(device, command):
 
 def on_message(client, userdata, msg):
     payload = msg.payload.decode()
-    print_line('Received new command, checking it..' + payload, console=True, sd_notify=True)
+    #print_line('Received new command, checking it..' + payload, console=True, sd_notify=True)
     bValid = validateJsonCommand(payload)
     jsonObj = json.loads(payload)
     if bValid:
@@ -130,7 +130,7 @@ def on_message(client, userdata, msg):
         #set up serial connection to usb stick
         ser = serial.Serial('/dev/'+ usb_adapter, deviceBaudRate)
         fullCommand = buildSchellenbergCommand(device, command)
-        print_line('New command:' + fullCommand, console=True, sd_notify=True)
+        print_line('New command:' + fullCommand, console=False, sd_notify=True)
         #write the command to the port
         numBytes = ser.write(str.encode(fullCommand))
         ser.close() # do not keep the connection open if others want to use it as well
@@ -138,7 +138,7 @@ def on_message(client, userdata, msg):
       except serial.SerialException as e:
         print_line('Error setting command to serial port', error=True, sd_notify=True)
     else:
-      print_line('Invalid json received, check readme for the appropriate format. Received json: ' + jsonIn, error=True, sd_notify=True)
+      print_line('Invalid json received, check readme for the appropriate format. Received json: ' + payload, error=True, sd_notify=True)
     pass
 
 
