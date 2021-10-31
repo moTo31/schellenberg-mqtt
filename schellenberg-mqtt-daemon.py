@@ -123,19 +123,19 @@ def on_message(client, userdata, msg):
     bValid = validateJsonCommand(payload)
     jsonObj = json.loads(payload)
     if bValid:
-      device = jsonObj[deviceEnumeratorKey]
-      command = jsonObj[deviceCommandKey]      
-      fullCommand = buildSchellenbergCommand(device, command)
-      print_line('New command:' + fullCommand, console=False, sd_notify=True)
-      #write the command to the port
-      try:
-        #set up serial connection to usb stick
-        ser = serial.Serial('/dev/' + usb_adapter, deviceBaudRate)
-        numBytes = ser.write(str.encode(fullCommand))
-        ser.close() # do not keep the connection open if others want to use it as well
-        sleep(1.0) # wait some time for the next command to be executed
-      except serial.SerialException as e:
-          print_line('Error setting command to serial port' + e.strerror(), error=True, sd_notify=True)
+        device = jsonObj[deviceEnumeratorKey]
+        command = jsonObj[deviceCommandKey]      
+        fullCommand = buildSchellenbergCommand(device, command)
+        print_line('New command:' + fullCommand, console=False, sd_notify=True)
+        #write the command to the port
+        try:
+            #set up serial connection to usb stick
+            ser = serial.Serial('/dev/' + usb_adapter, deviceBaudRate)
+            numBytes = ser.write(str.encode(fullCommand))
+            ser.close() # do not keep the connection open if others want to use it as well
+            sleep(1.0) # wait some time for the next command to be executed
+        except serial.SerialException as e:
+            print_line('Error setting command to serial port ' + str(e), error=True, sd_notify=True)
     else:
       print_line('Invalid json received, check readme for the appropriate format. Received json: ' + payload, error=True, sd_notify=True)
     pass
