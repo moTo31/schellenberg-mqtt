@@ -20,7 +20,7 @@ from datetime import datetime
 signal(SIGPIPE,SIG_DFL)
 
 project_name = 'Schellenberg Stick MQTT Client/Daemon'
-project_url = ''
+project_url = 'https://github.com/moTo31/schellenberg-mqtt'
 
 deviceBaudRate = 9600
 deviceEnumeratorKey = 'deviceEnumerator'
@@ -116,10 +116,11 @@ def validateJsonCommand(jsonData):
   return bValid
 
 def buildSchellenbergCommand(device, command):
+  
   fullCommand = 'ss' + \
                 device + \
                 numOfResends + \
-                command + \
+                commandMap[command] + \
                 '0000\n' #0000 is the Padding, newline at the end is required because it fails otherwise
   return fullCommand
 
