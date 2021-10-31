@@ -100,7 +100,7 @@ def validateJsonCommand(jsonData):
     if deviceEnumeratorKey in resultMap and deviceCommandKey in resultMap:
       device = resultMap[deviceEnumeratorKey]
       command = resultMap[deviceCommandKey]
-      if command in commandMap.keys:
+      if command in commandMap.keys():
         bValid = True
       else:
         print_line('Invalid command (not in map) received: ' + command, error=True, sd_notify=True)
@@ -118,12 +118,13 @@ def buildSchellenbergCommand(device, command):
 
 
 def on_message(client, userdata, msg):
-    jsonIn = msg.payload.decode()
-    print_line('Received new command, checking it..' + jsonIn, console=True, sd_notify=True)
-    bValid = validateJsonCommand(jsonIn)
+    payload = msg.payload.decode()
+    print_line('Received new command, checking it..' + payload, console=True, sd_notify=True)
+    bValid = validateJsonCommand(payload)
+    jsonObj = json.loads(payload)
     if bValid:
-      device = jsonIn[deviceEnumeratorKey]
-      command = jsonIn[deviceCommandKey]
+      device = jsonObj[deviceEnumeratorKey]
+      command = jsonObj[deviceCommandKey]
 
       
       try:
