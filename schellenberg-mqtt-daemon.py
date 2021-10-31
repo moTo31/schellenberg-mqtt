@@ -126,7 +126,6 @@ def on_message(client, userdata, msg):
       device = jsonObj[deviceEnumeratorKey]
       command = jsonObj[deviceCommandKey]
 
-      
       try:
         #set up serial connection to usb stick
         ser = serial.Serial('/dev/'+ usb_adapter, deviceBaudRate)
@@ -135,6 +134,7 @@ def on_message(client, userdata, msg):
         #write the command to the port
         numBytes = ser.write(str.encode(fullCommand))
         ser.close() # do not keep the connection open if others want to use it as well
+        sleep(1.0) # wait some time for the next command to be executed
       except serial.SerialException as e:
         print_line('Error setting command to serial port', error=True, sd_notify=True)
     else:
