@@ -40,7 +40,7 @@ The `deviceEnumerator` is the one byte hex device id used during the pairing pro
 As I described in the requirements, you need to have an MQTT broker ready where this daemon will connect to.
 Check the `config.ini` and adapt the parameters accordingly.
 
-In order to send a command, you just send a json string to the basetopic. This json currently does only support to mandatory parameters:
+In order to send a command, you just send a json string to the basetopic. This json currently does only support two mandatory parameters:
 - `deviceEnumerator`
   - Device id you want to control (one byte hex), this device must have been paired with the USB first!
   - Example: `"deviceEnumerator" : "C4"`
